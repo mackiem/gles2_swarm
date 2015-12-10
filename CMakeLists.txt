@@ -1,5 +1,5 @@
 # CMake entry point
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 project ("openGLES 2.0 for Raspberry Pi tutorials")
 
 SET(COMPILE_DEFINITIONS -Werror)
@@ -64,3 +64,4 @@ add_subdirectory(tutorial05_gen_YUV_tex_disp)
 add_subdirectory(tutorial06_tex_cam)
 add_subdirectory(tutorial07_model_loading)
 add_subdirectory(tutorial08_basic_shading)
+add_subdirectory(swarm_visualizer)

@@ -152,8 +152,11 @@ GLuint vertexPosition_modelspaceID = glGetAttribLocation(programID, "vertexPosit
 GLuint vertexUVID = glGetAttribLocation(programID, "vertexUV");
 GLuint vertexNormal_modelspaceID = glGetAttribLocation(programID, "vertexNormal_modelspace");
 
+    // init camera
+    int width = 1280;
+    int height = 960;
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+    glm::mat4 Projection = glm::perspective(45.0f, (float)width/ (float)height, 0.1f, 100.0f);
     // Or, for an ortho camera :
     //glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
 
@@ -173,9 +176,6 @@ GLuint vertexNormal_modelspaceID = glGetAttribLocation(programID, "vertexNormal_
     glm::vec3 scale = glm::vec3(1,1,1);
 
 
-    // init camera
-    int width = 1280;
-    int height = 960;
 
     init_camera(width, height);
     GLuint Texture = init_texture(width, height);

@@ -48,6 +48,18 @@ bool GfxShader::LoadFragmentShader(const char* filename)
         Id = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(Id, 1, (const GLchar**)&Src, 0);
         glCompileShader(Id);
+        
+        GLint status;
+        glGetShaderiv(Id, GL_COMPILE_STATUS, &status);
+        if (status != GL_TRUE) {
+            GLint log_length;
+            glGetShaderiv(Id, GL_INFO_LOG_LENGTH, &log_length);
+            char log[log_length];
+            glGetShaderInfoLog(Id, log_length, NULL, log);
+            printf("Shader %s compilation error: %s", filename, log);
+        }
+        printf("Compiled...\n");
+        
         check();
 
         //compilation check
@@ -89,6 +101,24 @@ bool GfxProgram::Create(GfxShader* vertex_shader, GfxShader* fragment_shader)
         glAttachShader(Id, VertexShader->GetId());
         glAttachShader(Id, FragmentShader->GetId());
         glLinkProgram(Id);
+        GLint isLinked = 0;
+        glGetProgramiv(Id, GL_LINK_STATUS, &isLinked);
+        if(isLinked == GL_FALSE)
+        {
+            GLint maxLength = 0;
+            glGetProgramiv(Id, GL_INFO_LOG_LENGTH, &maxLength);
+            
+            //The maxLength includes the NULL character
+            char infoLog[maxLength];
+            glGetProgramInfoLog(Id, maxLength, &maxLength, infoLog);
+            
+            //The Id is useless now. So delete it.
+            glDeleteProgram(Id);
+            
+            //Provide the infolog in whatever manner you deem best.
+            printf("Linking failed: %s", infoLog);
+            //Exit with failure.
+        }
         check();
 
         return true;    
